@@ -1,0 +1,186 @@
+<!DOCTYPE html>
+<html>
+<head>
+<title>Chatbot</title>
+<style>
+body { 
+	color: #421; 
+    font-family: Montserrat;
+	font-size: 18px; 
+	background: #FCF7EF; 
+	background-image: url("girl.gif") ; 
+	background-repeat: no-repeat; 
+	background-position: center-left;
+	  background-size: 750px;
+
+}
+span { 
+	color: #711; 
+} 
+::-webkit-input-placeholder { 
+	color: #711 
+}
+
+#main { 
+    font-family: Verdana;
+	position: fixed; top: 30%; right: 0px; width: 630px; 
+	border: 0px  solid #4169e1; right: 50px; width: 630px; 
+	font-size: 25px; padding: 5px;
+	
+}
+#main div { 
+	margin: 10px; 
+} 
+#input { 
+    font-family: Verdana;
+     font-size: 25px; 
+	border: 0; background: #white; padding: 5px; border: 1px solid #421; 
+}
+#introduction{
+	font-family: Century;
+	position: fixed; top: 10%; right: 120px; width: 600px; font-size: 55px; 
+}
+#introduction1{
+	font-family: Century;
+	position: fixed; top: 20%; right: 120px; width: 600px; font-size: 20px;
+}
+#questions1{
+	font-family: Century;
+	text-align: left;
+	position: fixed; top: 73%; right: 70px; width: 400px; 
+	font-size: 14px; padding: 0px;
+	
+}
+#questions2{
+	font-family: Century;
+	text-align: left;
+	position: fixed; top: 81%; right: -140px; width: 400px; 
+	font-size: 14px; padding: 0px;
+	
+}
+#paper{
+	position: fixed; top: 65%; right: 100px; width: 400px; 
+	font-size: 16px; padding: 0px;
+	
+}
+img{
+	width: 500px;
+	height: auto;
+}
+</style>
+</head>
+
+<body>
+
+<div id="main">
+	<div>user: <span id="user"></span></div>
+	<div>chatbot: <span id="chatbot"></span></div>
+	<div><center><input id="input" type="text" placeholder="type here..." autocomplete="off"/></center></div>
+</div>
+<div id = "introduction">
+<center> Hello, my name is Cheer! </center>
+</div>
+<div id = "introduction1">
+<center> THE AUTOMATED CHATBOT </center>
+</div>
+<div id = "paper">
+	<img src="paper.png">
+	</div>
+<div id = "questions1">
+<H7><center>YOU CAN TELL ME THESE BELOW...</H7></center><br><br>
+What is the location of your shop?<br>
+What can I buy?<br>
+What can I expect?<br>
+What sizes of foam do you sell?<br>
+What time does your store open?<br>
+</div>
+<div id = "questions2">
+What time does your store close?<br>
+What is the store's telephone landline?<br>
+What is the store's celphone number?<br>
+Tell me about the store.<br>
+Tell me about your mom and dad.<br>
+</div>
+     <a href="menu.html">
+  <img src="arrow.png" style="width:42px;height:42px;border:0">
+
+</a>
+<script type="text/javascript">
+var trigger = [
+	["hi","hey","hello"], 
+	["what is the location of your shop"],
+	["what can i buy"],
+	["what can i expect"],
+	["what sizes of foam do you sell"],
+	["what time does your store open"],
+	["what time does your store close"],
+	["what is the stores telephone landline"],
+	["what is the stores celphone number"],
+	["tell me about the store"],
+	["tell me about your mom and dad"],
+	["tell me about maam joan"],
+	["bye", "good bye", "goodbye", "see you later"]
+];
+var reply = [
+	["Hi","Hey","Hello"], 
+	["53 Rizal Avenue, San Carlos City, Pangasinan."],
+	["We offer ORIGINAL URATEX products: Uratex foam & mattresses with standard sizes, or custom cut to your preferred size."],
+	["We are your Authorized Uratex Dealer in Pangasinan, selling only genuine Uratex foam with 5yrs warranty."],
+	["30 by 75 (Semi-Single), 36 by 75 (Single), 42 by 75 (Semi-DoubleTwin), 8 by 75 (Double), 54 by 75 (PH Queen/US Matrimonial), and 60 by 75 (PH King/US Queen)"],	
+	["8 in the morning"],
+	["9 in the evening"],
+	["(075) 203 0445"],
+	["09174351928"],
+	["Uratex Foam-Pom Upholstery Supply is your Authorized Uratex Dealer in Pangasinan. Find the most affordable Original Uratex Foam for sale with 5 yrs warranty (single, double, family, or custom sizes)."],
+	["My mom is Jannor Acosta and my dad is Miguel Acosta"],
+	["Ma'am Joan is pretty and an excellent educator"],
+	["Thank you for visiting me!", "I'll see you again", "Please come again."]
+];
+var alternative = ["Sorry, I don't understand", "Eh..."];
+document.querySelector("#input").addEventListener("keypress", function(e){
+	var key = e.which || e.keyCode;
+	if(key === 13){ //Enter button
+		var input = document.getElementById("input").value;
+		document.getElementById("user").innerHTML = input;
+		output(input);
+	}
+});
+function output(input){
+	try{
+		var product = input + "=" + eval(input);
+	} catch(e){
+		var text = (input.toLowerCase()).replace(/[^\w\s\d]/gi, ""); //remove all chars except words, space and 
+		text = text.replace(/ a /g, " ").replace(/i feel /g, "").replace(/whats/g, "what is").replace(/please /g, "").replace(/ please/g, "");
+		if(compare(trigger, reply, text)){
+			var product = compare(trigger, reply, text);
+		} else {
+			var product = alternative[Math.floor(Math.random()*alternative.length)];
+		}
+	}
+	document.getElementById("chatbot").innerHTML = product;
+	speak(product);
+	document.getElementById("input").value = ""; //clear input value
+}
+function compare(arr, array, string){
+	var item;
+	for(var x=0; x<arr.length; x++){
+		for(var y=0; y<array.length; y++){
+			if(arr[x][y] == string){
+				items = array[x];
+				item =  items[Math.floor(Math.random()*items.length)];
+			}
+		}
+	}
+	return item;
+}
+function speak(string){
+	var utterance = new SpeechSynthesisUtterance();
+	utterance.voice = speechSynthesis.getVoices().filter(function(voice){return voice.name == "Agnes";})[0];
+	utterance.text = string;
+	utterance.lang = "en-US";
+	utterance.volume = 1; //0-1 interval
+	speechSynthesis.speak(utterance);
+}
+</script>
+</body>
+</html>
